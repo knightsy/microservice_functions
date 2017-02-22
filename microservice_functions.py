@@ -12,7 +12,7 @@ import json
 def send_request_to_bus(input_dict,host,port,topic):
     """ this is intended for publishing via http to a messaging bus """
     encoded_args = json.dumps(input_dict)
-    url = 'http://' + host + ':' + port + '//put?topic=' + topic
+    url = 'http://' + host + ':' + port + '/put?topic=' + topic
     urllib2.urlopen(url, encoded_args).read()
     return True    
 
