@@ -23,8 +23,8 @@ def describe_service():
     service_description['hostname'] = getfqdn()
     service_description['ip_address'] = gethostbyname(getfqdn())
     service_description['process_id'] = getpid()
-    service_description['script_name'] = __file__
-    service_description['description'] = __doc__ # this takes the docstring from the top of the file, so fill it in!
+#    service_description['script_name'] = __file__
+#    service_description['description'] = __doc__ # this takes the docstring from the top of the file, so fill it in!
 #    send_request_to_bus(service_description,'service_registry')
     return service_description
     
