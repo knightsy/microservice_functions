@@ -8,6 +8,7 @@ import logging
 import urllib2
 import json
 import datetime
+import traceback as tb
 
 
 def send_request_to_bus(input_dict,host,port,topic):
@@ -45,6 +46,7 @@ class MessagingBusHandler(logging.Handler):
         if method not in ["PUT"]:
             raise ValueError("method must be PUT")
         self.host = host
+        self.port = port
         self.topic = topic
         self.method = method
 
@@ -53,6 +55,13 @@ class MessagingBusHandler(logging.Handler):
         
         try:
             output_dict = record.__dict__
+            
+            if 'exc_info' in output_dict:
+                if output_dict['exc_info']:
+                    formatted = tb.format_exception(*output_dict['exc_info'])
+                    output_dict['exception'] = formatted
+                output_dict.pop('exc_info')
+
             output_dict["publication_type"] = 'APPLOG'
             output_dict['datetime'] = str(datetime.datetime.utcfromtimestamp(output_dict["created"]))
             for key, value in additionals_dict.iteritems():
@@ -71,4 +80,3 @@ class MessagingBusHandler(logging.Handler):
             raise
         except:
             self.handleError(record)  
-    
